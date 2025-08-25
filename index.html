@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Belt Stop Sync (Web Bluetooth)</title>
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Belt Stop Sync (Web Bluetooth)</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header>
   <h1>Belt Stop Sync</h1>
-  <p class="sub">Connect via Web Bluetooth (use the <strong>Bluefy</strong> browser on iOS)</p>
+  <p class="sub">Use with the <strong>Bluefy</strong> browser on iPhone to connect over BLE</p>
 </header>
 
 <main>
@@ -21,13 +20,38 @@
       <button id="btnDisconnect" disabled>Disconnect</button>
       <span id="connStatus" class="status">Disconnected</span>
     </div>
+    <div class="row"><label>Device:</label><span id="deviceName">—</span></div>
+  </section>
+
+  <section class="card">
+    <h2>Timezone & Schedule</h2>
     <div class="row">
-      <label>Device:</label><span id="deviceName">—</span>
+      <label>Timezone</label>
+      <select id="tzSelect"></select>
+      <button id="btnSendTime">Send Time + TZ</button>
+      <span class="muted">Send this first after connecting</span>
+    </div>
+    <div class="row">
+      <label>Recording Window</label>
+      <input type="time" id="winStart" value="00:00">
+      <input type="time" id="winEnd" value="09:00">
+      <label>Enabled</label><input type="checkbox" id="winEnabled" checked>
+      <button id="btnSendSchedule">Send Schedule</button>
+    </div>
+    <div class="row">
+      <label>Break 1</label>
+      <input type="time" id="b1Start" value="03:45"> –
+      <input type="time" id="b1End" value="04:00">
+      <label>Break 2</label>
+      <input type="time" id="b2Start" value="06:00"> –
+      <input type="time" id="b2End" value="06:30">
+      <label>Enabled</label><input type="checkbox" id="breaksEnabled" checked>
+      <button id="btnSendBreaks">Send Breaks</button>
     </div>
   </section>
 
   <section class="card">
-    <h2>Calibration</h2>
+    <h2>Calibration & Thresholds</h2>
     <div class="row">
       <button id="btnCalOn">Start Calibration</button>
       <button id="btnCalOff" disabled>Stop Calibration</button>
@@ -39,37 +63,27 @@
       <input type="number" id="thresh" step="0.0001" min="0" value="0.003">
       <label>Hysteresis (g)</label>
       <input type="number" id="hyst" step="0.0001" min="0" value="0.0015">
-    </div>
-    <div class="row">
-      <label>Secs for DOWN</label>
-      <input type="number" id="secsDown" min="1" max="60" value="5">
-      <label>Secs for UP</label>
-      <input type="number" id="secsUp" min="1" max="60" value="3">
+      <label>Secs DOWN</label><input type="number" id="secsDown" min="1" max="60" value="5">
+      <label>Secs UP</label><input type="number" id="secsUp" min="1" max="60" value="3">
       <button id="btnSendThresh">Send Thresholds</button>
     </div>
   </section>
 
   <section class="card">
-    <h2>Recording Window</h2>
-    <div class="row">
-      <label>Enabled</label><input type="checkbox" id="winEnabled" checked>
-      <label>Start</label><input type="time" id="winStart" value="00:00">
-      <label>End</label><input type="time" id="winEnd" value="09:00">
-      <button id="btnSendSchedule">Send Time + Schedule</button>
-    </div>
-  </section>
-
-  <section class="card">
-    <h2>Sync</h2>
+    <h2>Sync & Stats</h2>
     <div class="row">
       <button id="btnSync">Sync Now</button>
       <span id="syncInfo" class="muted"></span>
+    </div>
+    <div class="row stats">
+      <div><strong>Stops this shift:</strong> <span id="shiftStops">0</span></div>
+      <div><strong>Last stop:</strong> <span id="lastStop">—</span></div>
     </div>
     <pre id="log" class="log"></pre>
   </section>
 
   <section class="card">
-    <h2>Exports</h2>
+    <h2>Export</h2>
     <div class="row">
       <label>Day</label><input type="date" id="expDay">
       <button id="btnExpDay">Export Day CSV</button>
@@ -87,7 +101,7 @@
 </main>
 
 <footer>
-  <p>Data stored locally on this device (IndexedDB). You can export CSV anytime.</p>
+  <p>Data is stored locally on this device (IndexedDB). Export regularly.</p>
 </footer>
 
 <script type="module" src="app.js"></script>
