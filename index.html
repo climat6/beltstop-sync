@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Belt Stop Sync (Web Bluetooth)</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <h1>Belt Stop Sync</h1>
+  <p class="sub">Connect via Web Bluetooth (use the <strong>Bluefy</strong> browser on iOS)</p>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Connection</h2>
+    <div class="row">
+      <button id="btnConnect">Connect</button>
+      <button id="btnDisconnect" disabled>Disconnect</button>
+      <span id="connStatus" class="status">Disconnected</span>
+    </div>
+    <div class="row">
+      <label>Device:</label><span id="deviceName">—</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Calibration</h2>
+    <div class="row">
+      <button id="btnCalOn">Start Calibration</button>
+      <button id="btnCalOff" disabled>Stop Calibration</button>
+      <div class="spacer"></div>
+      <label>Live vib (g):</label><span id="vibG">0.000000</span>
+    </div>
+    <div class="row">
+      <label>Threshold (g)</label>
+      <input type="number" id="thresh" step="0.0001" min="0" value="0.003">
+      <label>Hysteresis (g)</label>
+      <input type="number" id="hyst" step="0.0001" min="0" value="0.0015">
+    </div>
+    <div class="row">
+      <label>Secs for DOWN</label>
+      <input type="number" id="secsDown" min="1" max="60" value="5">
+      <label>Secs for UP</label>
+      <input type="number" id="secsUp" min="1" max="60" value="3">
+      <button id="btnSendThresh">Send Thresholds</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Recording Window</h2>
+    <div class="row">
+      <label>Enabled</label><input type="checkbox" id="winEnabled" checked>
+      <label>Start</label><input type="time" id="winStart" value="00:00">
+      <label>End</label><input type="time" id="winEnd" value="09:00">
+      <button id="btnSendSchedule">Send Time + Schedule</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Sync</h2>
+    <div class="row">
+      <button id="btnSync">Sync Now</button>
+      <span id="syncInfo" class="muted"></span>
+    </div>
+    <pre id="log" class="log"></pre>
+  </section>
+
+  <section class="card">
+    <h2>Exports</h2>
+    <div class="row">
+      <label>Day</label><input type="date" id="expDay">
+      <button id="btnExpDay">Export Day CSV</button>
+    </div>
+    <div class="row">
+      <label>Month</label>
+      <input type="number" id="expYear" min="2020" max="2100" value="2025">
+      <input type="number" id="expMonth" min="1" max="12" value="1">
+      <button id="btnExpMonth">Export Month CSV</button>
+    </div>
+    <div class="row">
+      <button id="btnExpAll">Export All CSV</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Data stored locally on this device (IndexedDB). You can export CSV anytime.</p>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
